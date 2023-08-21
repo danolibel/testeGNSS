@@ -254,7 +254,7 @@ public class FileLogger implements MeasurementListener {
         String json = "{\"macAddress\": \""+macAddress+"\"} {\"speed\": \""+location.getSpeed()+"\"} {\"latitude\": \""+location.getLatitude()+"\"} {\"longitude\": \""+location.getLongitude()+"\"} {\"token\": \""+ LoginActivity.getLoginToken() +"\"}"; // JSON data
 
         HttpPost postTask = new HttpPost();
-        postTask.execute("@string/url_login", json);
+        postTask.execute("@string/url_ping", json);
         mFileWriter.write(locationStream);
         mFileWriter.newLine();
       } catch (IOException e) {

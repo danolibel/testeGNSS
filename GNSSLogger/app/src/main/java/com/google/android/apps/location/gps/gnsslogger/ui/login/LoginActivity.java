@@ -84,13 +84,14 @@ public class LoginActivity extends AppCompatActivity implements HttpPost.OnRespo
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
+                    setResult(Activity.RESULT_OK);
 
-                //Complete and destroy login activity once successful
-                android.content.Intent i = new android.content.Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
-                finish();
+                    //Complete and destroy login activity once successful
+                    android.content.Intent i = new android.content.Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+
             }
         });
 
@@ -131,11 +132,7 @@ public class LoginActivity extends AppCompatActivity implements HttpPost.OnRespo
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                String macAddress = MainActivity.getMacAddress();
-                String json = "{\"userName\": \""+usernameEditText.getText().toString()+"\"} {\"password\": \""+passwordEditText.getText().toString()+"\"} {\"macAddress\": \""+macAddress+"\"} "; // JSON data
 
-                HttpPost postTask = new HttpPost();
-                postTask.execute("@string/url_login", json);
 
 
             }

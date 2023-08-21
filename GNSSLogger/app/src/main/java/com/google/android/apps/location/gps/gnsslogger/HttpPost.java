@@ -12,6 +12,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
 
 
 public class HttpPost extends AsyncTask<String, Void, String> {
@@ -22,12 +25,24 @@ public class HttpPost extends AsyncTask<String, Void, String> {
 
     private OnResponseReceivedListener listener;
 
-    public String loginToken ="";
+    public static String httpToken ="";
 
     public void MyHttpPostTask(OnResponseReceivedListener listener) {
         this.listener = listener;
     }
 
+
+
+    public String post(String url, String json) throws IOException {
+        RequestBody body = RequestBody.create(json, JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        }
+    }
     @Override
     protected String doInBackground(String... params) {
         String url = params[0];
@@ -76,7 +91,35 @@ public class HttpPost extends AsyncTask<String, Void, String> {
 
     public void onResponseReceived(String token) {
         // Handle the token here
-        loginToken = token;
+        httpToken = token;
         Log.d("TOKEN_RECEIVED", "Token: " + token);
+    }
+    public static String getToken(){
+        return httpToken;
+    }
+    public static String getMacAddress(){
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:",b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+        }
+        return "02:00:00:00:00:00";
     }
 }
