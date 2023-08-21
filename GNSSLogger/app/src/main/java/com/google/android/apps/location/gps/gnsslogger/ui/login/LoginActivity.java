@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,10 +39,11 @@ public class LoginActivity extends AppCompatActivity implements HttpPost.OnRespo
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
     public static String loginToken = "";
+    public static String android_device_id ="";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+         android_device_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

@@ -1,5 +1,10 @@
 package com.google.android.apps.location.gps.gnsslogger;
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.content.Context;
 import android.os.AsyncTask;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -12,7 +17,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,15 +32,14 @@ public class HttpPost extends AsyncTask<String, Void, String> {
 
     private OnResponseReceivedListener listener;
 
-    public static String httpToken ="";
+    public static String httpToken = "";
 
-    public void MyHttpPostTask(OnResponseReceivedListener listener) {
+    public void HttpPost(OnResponseReceivedListener listener) {
         this.listener = listener;
     }
 
 
-
-    public String post(String url, String json) throws IOException {
+   /* public String post(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(json, JSON);
         Request request = new Request.Builder()
                 .url(url)
@@ -42,9 +48,10 @@ public class HttpPost extends AsyncTask<String, Void, String> {
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         }
-    }
+    } */
+
     @Override
-    protected String doInBackground(String... params) {
+    public  String doInBackground(String... params) {
         String url = params[0];
         String json = params[1];
 
@@ -89,37 +96,35 @@ public class HttpPost extends AsyncTask<String, Void, String> {
         void onResponseReceived(String token);
     }
 
-    public void onResponseReceived(String token) {
-        // Handle the token here
-        httpToken = token;
-        Log.d("TOKEN_RECEIVED", "Token: " + token);
-    }
-    public static String getToken(){
-        return httpToken;
-    }
-    public static String getMacAddress(){
-        try {
-            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface nif : all) {
-                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
 
-                byte[] macBytes = nif.getHardwareAddress();
-                if (macBytes == null) {
-                    return "";
-                }
 
-                StringBuilder res1 = new StringBuilder();
-                for (byte b : macBytes) {
-                    res1.append(String.format("%02X:",b));
-                }
-
-                if (res1.length() > 0) {
-                    res1.deleteCharAt(res1.length() - 1);
-                }
-                return res1.toString();
+    public static String getMacAddress(String uniqueId) {
+        uniqueId = MD5(uniqueId);
+        int i = 0;
+        while(i<uniqueId.length())
+        {
+            if(i%5==0)
+            {
+                uniqueId = new StringBuilder(uniqueId).insert(i, "-").toString();
             }
-        } catch (Exception ex) {
+            i++;
         }
-        return "02:00:00:00:00:00";
+        uniqueId = uniqueId.substring(1);
+        return uniqueId;
+
+    }
+    public static String MD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes("UTF-8"));
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        } catch(UnsupportedEncodingException ex){
+        }
+        return null;
     }
 }

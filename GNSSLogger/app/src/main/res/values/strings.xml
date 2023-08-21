@@ -91,4 +91,5 @@
     <string name="invalid_username">Usuário Inválido</string>
     <string name="invalid_password">Senha incorreta</string>
     <string name="login_failed">"Login falhou!"</string>
+    <string name="strings_url_login">\@strings/url_login</string>
 </resources>
