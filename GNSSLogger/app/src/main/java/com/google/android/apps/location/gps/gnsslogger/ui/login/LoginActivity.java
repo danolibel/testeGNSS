@@ -23,8 +23,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.apps.location.gps.gnsslogger.HttpPost;
 import com.google.android.apps.location.gps.gnsslogger.MainActivity;
 import com.google.android.apps.location.gps.gnsslogger.R;
+import com.google.android.apps.location.gps.gnsslogger.data.model.LoggedInUser;
 import com.google.android.apps.location.gps.gnsslogger.ui.login.LoginViewModel;
 import com.google.android.apps.location.gps.gnsslogger.ui.login.LoginViewModelFactory;
 import com.google.android.apps.location.gps.gnsslogger.databinding.ActivityLoginBinding;
@@ -129,6 +131,13 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+                String macAddress = MainActivity.getMacAddress();
+                String json = "{\"macAddress\": \""+macAddress+"\"} {\"login\": \""+usernameEditText.getText().toString()+"\"} {\"password\": \""+passwordEditText.getText().toString()+"\"} "; // JSON data
+
+                HttpPost postTask = new HttpPost();
+                postTask.execute("@string/url_login", json);
+
+
             }
         });
     }
@@ -142,4 +151,7 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
+
+
+
 }

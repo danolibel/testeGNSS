@@ -10,7 +10,8 @@
     <string name="title_device">Device</string>
     <string name="title_wls">WLS</string>
     <string name="title_plot">Plot</string>
-
+    <string name="url_login">http://localhost:49478/api/GNSS/Login</string>
+    <string name="url_ping">http://localhost:49478/api/GNSS/ReceiveGpsPing</string>
     <string name="location_label">Location</string>
     <string name="measurements_label">Measurements</string>
     <string name="nav_msg_label">Navigation Messages</string>
