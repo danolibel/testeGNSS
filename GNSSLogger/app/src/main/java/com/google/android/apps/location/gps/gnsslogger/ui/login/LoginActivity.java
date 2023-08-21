@@ -33,11 +33,11 @@ import com.google.android.apps.location.gps.gnsslogger.databinding.ActivityLogin
 
 import java.text.BreakIterator;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements HttpPost.OnResponseReceivedListener{
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
-
+    public static String loginToken = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,6 +152,12 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 
-
-
+    @Override
+    public void onResponseReceived(String token) {
+        loginToken = token;
+        Log.d("TOKEN_RECEIVED", "Token: " + token);
+    }
+    public static String getLoginToken(){
+        return loginToken;
+    }
 }

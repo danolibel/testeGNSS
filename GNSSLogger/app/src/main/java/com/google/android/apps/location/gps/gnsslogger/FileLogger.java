@@ -33,6 +33,8 @@ import android.util.Log;
 import android.widget.Toast;
 import androidx.core.content.FileProvider;
 import com.google.android.apps.location.gps.gnsslogger.LoggerFragment.UIFragmentComponent;
+import com.google.android.apps.location.gps.gnsslogger.ui.login.LoginActivity;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
@@ -249,7 +251,7 @@ public class FileLogger implements MeasurementListener {
               location.getTime());
       try {
         String macAddress = MainActivity.getMacAddress();
-        String json = "{\"macAddress\": \""+macAddress+"\"} {\"speed\": \""+location.getSpeed()+"\"} {\"latitude\": \""+location.getLatitude()+"\"} {\"latitude\": \""+location.getLongitude()+"\"} {\"latitude\": \""+location.getLatitude()+"\"}"; // JSON data
+        String json = "{\"macAddress\": \""+macAddress+"\"} {\"speed\": \""+location.getSpeed()+"\"} {\"latitude\": \""+location.getLatitude()+"\"} {\"longitude\": \""+location.getLongitude()+"\"} {\"token\": \""+ LoginActivity.getLoginToken() +"\"}"; // JSON data
 
         HttpPost postTask = new HttpPost();
         postTask.execute("@string/url_login", json);
