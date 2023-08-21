@@ -15,7 +15,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-
+import okhttp3.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.NetworkInterface;
@@ -91,7 +91,30 @@ public class HttpPost extends AsyncTask<String, Void, String> {
             }
         }
     }
+    public String sendPostRequest(String url, String json) {
+        RequestBody requestBody = RequestBody.create(json, JSON);
+        final String[] r = {""};
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
 
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseBody = response.body().string();
+                r[0] = responseBody;
+                // For example, update UI or process the response data
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Handle network or other errors here
+            }
+
+        });
+        return r[0];
+    }
     public interface OnResponseReceivedListener {
         void onResponseReceived(String token);
     }
