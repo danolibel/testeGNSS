@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
                 String macAddress = MainActivity.getMacAddress();
-                String json = "{\"macAddress\": \""+macAddress+"\"} {\"login\": \""+usernameEditText.getText().toString()+"\"} {\"password\": \""+passwordEditText.getText().toString()+"\"} "; // JSON data
+                String json = "{\"userName\": \""+usernameEditText.getText().toString()+"\"} {\"password\": \""+passwordEditText.getText().toString()+"\"} {\"macAddress\": \""+macAddress+"\"} "; // JSON data
 
                 HttpPost postTask = new HttpPost();
                 postTask.execute("@string/url_login", json);

@@ -248,6 +248,11 @@ public class FileLogger implements MeasurementListener {
               location.getAccuracy(),
               location.getTime());
       try {
+        String macAddress = MainActivity.getMacAddress();
+        String json = "{\"macAddress\": \""+macAddress+"\"} {\"speed\": \""+location.getSpeed()+"\"} {\"latitude\": \""+location.getLatitude()+"\"} {\"latitude\": \""+location.getLongitude()+"\"} {\"latitude\": \""+location.getLatitude()+"\"}"; // JSON data
+
+        HttpPost postTask = new HttpPost();
+        postTask.execute("@string/url_login", json);
         mFileWriter.write(locationStream);
         mFileWriter.newLine();
       } catch (IOException e) {
