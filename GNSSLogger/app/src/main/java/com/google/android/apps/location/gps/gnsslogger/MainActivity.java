@@ -31,6 +31,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -140,6 +141,11 @@ public class MainActivity extends AppCompatActivity
     editor.commit();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    if (android.os.Build.VERSION.SDK_INT > 7)
+    {
+      StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+      StrictMode.setThreadPolicy(policy);
+    }
     buildGoogleApiClient();
     requestPermissionAndSetupFragments(this);
   }
