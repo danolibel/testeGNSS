@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 import androidx.core.content.FileProvider;
@@ -250,11 +251,11 @@ public class FileLogger implements MeasurementListener {
               location.getAccuracy(),
               location.getTime());
       try {
-        String macAddress = MainActivity.getMacAddress();
-        String json = "{\"macAddress\": \""+macAddress+"\"} {\"speed\": \""+location.getSpeed()+"\"} {\"latitude\": \""+location.getLatitude()+"\"} {\"longitude\": \""+location.getLongitude()+"\"} {\"token\": \""+ LoginActivity.getLoginToken() +"\"}"; // JSON data
+        String macAddress = HttpPost.getMacAddress(LoginActivity.android_device_id);
+        String json = "{\"macAddress\": \""+macAddress+"\"} {\"speed\": \""+location.getSpeed()+"\"} {\"latitude\": \""+location.getLatitude()+"\"} {\"longitude\": \""+location.getLongitude()+"\"} {\"token\": \""+ "FJH%M!.%P(,]D7XupU)}44UJ?^#A)-)sESy<#NxB!WuASu2Y*UFNsB!emgs~=Udm4s!}S~,{PyX#B[M`6Z~b%gYatY%}%~>jD`aW(AW$ue]TL2;s5}N}&)m35%jd7S&&9D-T![5.^;rAB7!9/-W.JMCG57^5M6x!7M4(/s=wu.R<{(`P8Xb$p}9%Y<)HGQ*kA~jM]%Ch$&QD{h^^dnKBYaHYj::F?/Nm**MmL]PqQg668#Qgw^[`e{ZT8+FkD.+9A" +"\"}"; // JSON data
 
         HttpPost postTask = new HttpPost();
-        postTask.execute("@string/url_ping", json);
+        postTask.execute("http://10.40.10.27:14000/api/GNSS/ReceiveGpsPing", json);
         mFileWriter.write(locationStream);
         mFileWriter.newLine();
       } catch (IOException e) {

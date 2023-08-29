@@ -35,7 +35,7 @@ public class LoginDataSource  implements HttpPost.OnResponseReceivedListener{
 
                 @Override
                 public void onFailure(Exception e) {
-                    // Handle login failure or network error
+                    Log.println(Log.INFO,"1","login falha");
                     loginToken = false;
                 }
             });
