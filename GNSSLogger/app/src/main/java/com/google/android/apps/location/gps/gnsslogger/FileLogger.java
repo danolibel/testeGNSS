@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -252,7 +253,7 @@ public class FileLogger implements MeasurementListener {
               location.getTime());
       try {
         String macAddress = HttpPost.getMacAddress(LoginActivity.android_device_id);
-        String json = "{\"macAddress\": \""+macAddress+"\"} {\"speed\": \""+location.getSpeed()+"\"} {\"latitude\": \""+location.getLatitude()+"\"} {\"longitude\": \""+location.getLongitude()+"\"} {\"token\": \""+ "FJH%M!.%P(,]D7XupU)}44UJ?^#A)-)sESy<#NxB!WuASu2Y*UFNsB!emgs~=Udm4s!}S~,{PyX#B[M`6Z~b%gYatY%}%~>jD`aW(AW$ue]TL2;s5}N}&)m35%jd7S&&9D-T![5.^;rAB7!9/-W.JMCG57^5M6x!7M4(/s=wu.R<{(`P8Xb$p}9%Y<)HGQ*kA~jM]%Ch$&QD{h^^dnKBYaHYj::F?/Nm**MmL]PqQg668#Qgw^[`e{ZT8+FkD.+9A" +"\"}"; // JSON data
+        String json = "{\"macAddress\": \""+macAddress+"\",\n \"speed\": "+location.getSpeed()+", \n \"latitude\": "+location.getLatitude()+", \n \"longitude\": "+location.getLongitude()+", \n \"token\": \""+ "FJH%M!.%P(,]D7XupU)}44UJ?^#A)-)sESy<#NxB!WuASu2Y*UFNsB!emgs~=Udm4s!}S~,{PyX#B[M`6Z~b%gYatY%}%~>jD`aW(AW$ue]TL2;s5}N}&)m35%jd7S&&9D-T![5.^;rAB7!9/-W.JMCG57^5M6x!7M4(/s=wu.R<{(`P8Xb$p}9%Y<)HGQ*kA~jM]%Ch$&QD{h^^dnKBYaHYj::F?/Nm**MmL]PqQg668#Qgw^[`e{ZT8+FkD.+9A\"}"; // JSON data
 
         HttpPost postTask = new HttpPost();
         postTask.execute("http://10.40.10.27:14000/api/GNSS/ReceiveGpsPing", json);

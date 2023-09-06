@@ -68,7 +68,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
-    <!-- <TextView
+     <TextView
          android:id="@+id/textView2"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
@@ -79,5 +79,5 @@
          app:layout_constraintEnd_toEndOf="@+id/login"
          app:layout_constraintStart_toStartOf="@+id/login"
          tools:layout_editor_absoluteX="165dp"
-         tools:layout_editor_absoluteY="699dp" /> -->
+         tools:layout_editor_absoluteY="699dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

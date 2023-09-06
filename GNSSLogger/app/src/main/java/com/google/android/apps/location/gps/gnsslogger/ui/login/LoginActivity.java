@@ -54,10 +54,10 @@ public class LoginActivity extends AppCompatActivity implements HttpPost.OnRespo
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
-      /*  final TextView textView2 = null;
-        String mobile_mac_address = MainActivity.getMacAddress();  //call the method that return mac address
+        final TextView textView2 = binding.textView2;
+        String mobile_mac_address = MainActivity.getMacAddress(android_device_id);  //call the method that return mac address
         Log.d("MyMacIS",mobile_mac_address);  // this prints the MAC Address
-        textView2.setText(mobile_mac_address); */
+        textView2.setText(mobile_mac_address);
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {

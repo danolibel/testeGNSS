@@ -53,6 +53,7 @@ import com.google.android.gms.location.DetectedActivity;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.UnsupportedEncodingException;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Collections;
@@ -378,53 +379,35 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
-  public static String getMacAddress(){
-    try {
-      List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-      for (NetworkInterface nif : all) {
-        if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
-
-        byte[] macBytes = nif.getHardwareAddress();
-        if (macBytes == null) {
-          return "";
-        }
-
-        StringBuilder res1 = new StringBuilder();
-        for (byte b : macBytes) {
-          res1.append(String.format("%02X:",b));
-        }
-
-        if (res1.length() > 0) {
-          res1.deleteCharAt(res1.length() - 1);
-        }
-        return res1.toString();
-      }
-    } catch (Exception ex) {
-    }
-    return "02:00:00:00:00:00";
-  }
-   /* try{
-      List<NetworkInterface> networkInterfaceList = Collections.list(NetworkInterface.getNetworkInterfaces());
-      String stringMac = "";
-      for(NetworkInterface networkInterface : networkInterfaceList){
-        if(networkInterface.getName().equalsIgnoreCase("wlon0"));
-        {
-          for(int i=0;i <networkInterface.getHardwareAddress().length; i++){
-            String stringMacByte = Integer.toHexString(networkInterface.getHardwareAddress()[i]& 0xFF);
-            if(stringMacByte.length()==1){
-              stringMacByte = "0" +stringMacByte;
-            }
-            stringMac += stringMacByte.toUpperCase() + ":";
-          } break;
-        }
-      }
-      return stringMac;
-    }catch (SocketException e)
+  public static String getMacAddress(String uniqueId) {
+    uniqueId = MD5(uniqueId);
+    int i = 0;
+    while(i<uniqueId.length())
     {
-      e.printStackTrace();
+      if(i%5==0)
+      {
+        uniqueId = new StringBuilder(uniqueId).insert(i, "-").toString();
+      }
+      i++;
     }
-    return  "0";
-  } */
+    uniqueId = uniqueId.substring(1);
+    return uniqueId;
+
+  }
+  public static String MD5(String md5) {
+    try {
+      java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+      byte[] array = md.digest(md5.getBytes("UTF-8"));
+      StringBuffer sb = new StringBuffer();
+      for (int i = 0; i < array.length; ++i) {
+        sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+      }
+      return sb.toString();
+    } catch (java.security.NoSuchAlgorithmException e) {
+    } catch(UnsupportedEncodingException ex){
+    }
+    return null;
+  }
   /**
    * Sets up the ground truth mode of {@link RealTimePositionVelocityCalculator} given an result
    * from Activity Recognition update. For activities other than {@link DetectedActivity#STILL} and

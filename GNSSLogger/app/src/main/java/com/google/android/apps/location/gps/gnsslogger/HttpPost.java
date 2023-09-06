@@ -39,7 +39,7 @@ public class HttpPost extends AsyncTask<String, Void, String> {
     }
 
 
-   /* public String post(String url, String json) throws IOException {
+    public String post(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(json, JSON);
         Request request = new Request.Builder()
                 .url(url)
@@ -48,7 +48,7 @@ public class HttpPost extends AsyncTask<String, Void, String> {
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         }
-    } */
+    }
 
     @Override
     public  String doInBackground(String... params) {
